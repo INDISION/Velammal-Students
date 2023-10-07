@@ -1,6 +1,8 @@
 from django.contrib import admin
-from . import models
+from .models import *
 # Register your models here.
-admin.site.register(models.Class)
-admin.site.register(models.Subject)
-admin.site.register(models.Attendance)
+admin.site.register(Class)
+admin.site.register(Subject)
+admin.site.register(Attendance)
+admin.site.register(Exam)
+admin.site.register(Result)

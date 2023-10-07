@@ -44,3 +44,39 @@ class Attendance(models.Model):
 
     def __str__(self):
         return str(self.date) + " | " + self.status
+    
+class Exam(models.Model):
+    class Exams(models.TextChoices):
+        IA1 = 'IA1', 'IA1'
+        IA2 = 'IA2', 'IA2'
+        IA3 = 'IA3', 'IA3'
+        MODEL = 'MODEL', 'MODEL'
+        SEMESTER = 'SEMESTER', 'SEMESTER'
+    
+    exam = models.CharField(max_length=250, choices=Exams.choices)
+    class_id = models.ForeignKey(Class, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "EXAM " + self.exam + " | " + self.class_id.unique_field
+    
+class Result(models.Model):
+    class AttendStatus(models.TextChoices):
+        ABSENT = 'ABSENT', 'ABSENT'
+        PRESENT = 'PRESENT', 'PRESENT'
+        OD = 'OD', 'OD'
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    marks = models.CharField(max_length=25, null=True, blank=True)
+    attend_status = models.CharField(choices=AttendStatus.choices, max_length=25, default=AttendStatus.PRESENT)
+
+    def save(self, *args, **kwargs):
+        if self.marks==None:
+            self.attend_status = self.AttendStatus.ABSENT
+        else:
+            self.attend_status = self.AttendStatus.PRESENT
+        super(Result, self).save(*args, **kwargs)
+        
+
+    def __str__(self):
+        return self.student.user.username + " | EXAM " + self.exam.exam + " | " + self.exam.class_id.unique_field
