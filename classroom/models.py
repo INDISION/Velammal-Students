@@ -20,7 +20,7 @@ class Class(models.Model):
     semester = models.ForeignKey(Semester, on_delete=models.SET_NULL, null=True)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
     section = models.ForeignKey(Section, on_delete=models.SET_NULL, null=True)
-    subjects = models.ManyToManyField(Subject)
+    subjects = models.ManyToManyField(Subject, null=True, blank=True)
     unique_field = models.CharField(max_length=250, unique=True, null=True, blank=True)
 
     def save(self, *args, **kwargs):
