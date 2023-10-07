@@ -8,7 +8,7 @@ from users.models import *
 class Subject(models.Model):
     code = models.CharField(max_length=25, unique=True)
     name = models.CharField(max_length=250)
-    grade = models.CharField(max_length=25)
+    credit = models.CharField(max_length=25)
 
     def __str__(self):
         return self.code + " " + self.name
@@ -35,12 +35,12 @@ class Class(models.Model):
     
 class Attendance(models.Model):
     class Status(models.TextChoices):
-        WORKING = 'working', 'Working Day'
-        NONWORKING = 'nonworking', 'Non Working Day'
+        WORKING = 'Working Day', 'Working Day'
+        NONWORKING = 'Non Working Day', 'Non Working Day'
 
     date = models.DateField(default=datetime.datetime.now())
     status = models.CharField(max_length=25, choices=Status.choices, default=Status.WORKING)
     students = models.ManyToManyField(StudentProfile)
 
     def __str__(self):
-        return str(self.date) + " " + self.status
+        return str(self.date) + " | " + self.status
