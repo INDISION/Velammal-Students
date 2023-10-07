@@ -58,15 +58,3 @@ class StudentProfile(models.Model):
 
     def __str__(self):
         return str(self.user)
-    
-class Attendance(models.Model):
-    class Status(models.TextChoices):
-        WORKING = 'working', 'Working Day'
-        NONWORKING = 'nonworking', 'Non Working Day'
-
-    date = models.DateField(default=datetime.datetime.now())
-    status = models.CharField(max_length=25, choices=Status.choices, default=Status.WORKING)
-    students = models.ManyToManyField(StudentProfile)
-
-    def __str__(self):
-        return str(self.date) + " " + self.status
