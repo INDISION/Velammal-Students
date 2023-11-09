@@ -85,7 +85,7 @@ def registration(request):
     years = Year.objects.all()
 
     context = {'regulations':regulations, 'batches':batches, 'departments':departments, 'semesters':semesters, 'genders':genders, 'sections':sections, 'years':years}
-    return render(request, 'users/registration.html', context)
+    return render(request, 'users/registration.html', context) 
 
 class UserLoginView(LoginView):
     template_name = 'users/login.html'

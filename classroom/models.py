@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 import sys
 sys.path.append("..")
@@ -20,7 +21,7 @@ class Class(models.Model):
     semester = models.ForeignKey(Semester, on_delete=models.SET_NULL, null=True)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
     section = models.ForeignKey(Section, on_delete=models.SET_NULL, null=True)
-    subjects = models.ManyToManyField(Subject, null=True, blank=True)
+    subjects = models.ManyToManyField(Subject, blank=True)
     unique_field = models.CharField(max_length=250, unique=True, null=True, blank=True)
 
     def save(self, *args, **kwargs):
@@ -38,7 +39,7 @@ class Attendance(models.Model):
         WORKING = 'Working Day', 'Working Day'
         NONWORKING = 'Non Working Day', 'Non Working Day'
 
-    date = models.DateField(default=datetime.datetime.now())
+    date = models.DateField(default=timezone.now)
     status = models.CharField(max_length=25, choices=Status.choices, default=Status.WORKING)
     students = models.ManyToManyField(StudentProfile)
 
