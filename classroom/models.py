@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+import os
 
 import sys
 sys.path.append("..")
@@ -52,7 +53,14 @@ class Exam(models.Model):
         IA2 = 'IA2', 'IA2'
         IA3 = 'IA3', 'IA3'
         MODEL = 'MODEL', 'MODEL'
-        SEMESTER = 'SEMESTER', 'SEMESTER'
+        SEM1 = 'SEM-1', 'SEMESTER-1'
+        SEM2 = 'SEM-2', 'SEMESTER-2'
+        SEM3 = 'SEM-3', 'SEMESTER-3'
+        SEM4 = 'SEM-4', 'SEMESTER-4'
+        SEM5 = 'SEM-5', 'SEMESTER-5'
+        SEM6 = 'SEM-6', 'SEMESTER-6'
+        SEM7 = 'SEM-7', 'SEMESTER-7'
+        SEM8 = 'SEM-8', 'SEMESTER-8'
     
     exam = models.CharField(max_length=250, choices=Exams.choices)
     class_id = models.ForeignKey(Class, on_delete=models.CASCADE)
@@ -98,6 +106,12 @@ class Assignments(models.Model):
     date = models.DateField(default=timezone.now)
     title = models.CharField(max_length=255)
     file = models.FileField(upload_to='assignments/')
+
+    def delete(self, *args, **kwargs):
+        if self.file:
+            if os.path.isfile(self.file.path):
+                os.remove(self.file.path)
+        super(Assignments, self).delete(*args, **kwargs)
 
     def __str__(self):
         return self.title + " | " + str(self.subject) + " | " + self.class_id.class_id

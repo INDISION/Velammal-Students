@@ -17,6 +17,22 @@ To Reset Your Password Click On The Link
 """
 
 # Create your views here.
+def profile(request):
+    user = User.objects.get(pk=request.user.id)
+    student_profile = StudentProfile.objects.get(user=user)
+    context = {
+        'student' : student_profile,
+    }
+    return render(request, 'users/profile.html', context)
+
+def updateProfile(request):
+    user = User.objects.get(pk=request.user.id)
+    student_profile = StudentProfile.objects.get(user=user)
+    context = {
+        'student' : student_profile,
+    }
+    return render(request, 'users/profile-update-form.html', context)
+
 def registration(request):
     
     if request.method=='POST':
@@ -35,7 +51,6 @@ def registration(request):
         gender = request.POST.get('gender')
         mobile = str(request.POST.get('mobile')).strip()
 
-        print(username, email, password1, password2, name, regulation, batch, semester, section, dob, gender, mobile)
         if password1!=password2:
             print("Passwords Not Matched")
         elif not email.endswith('@velammalitech.edu.in'):

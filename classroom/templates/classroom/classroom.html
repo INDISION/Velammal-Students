@@ -24,16 +24,20 @@
             </tr>
         </thead>
         <tbody>
+            {% if attendence.items %}
             {% for month, data in attendence.items %}
-            <tr>
-                <td>{{month}}</td>
-                <td>{{data.present}}</td>
-                <td>{{data.presentPercent}}</td>
-                <td>{{data.absent}}</td>
-                <td>{{data.absentPercent}}</td>
-                <td>{{data.totalDays}}</td>
-            </tr>
+                {% if data.present %}
+                <tr>
+                    <td>{{month}}</td>
+                    <td>{{data.present}}</td>
+                    <td>{{data.presentPercent}}</td>
+                    <td>{{data.absent}}</td>
+                    <td>{{data.absentPercent}}</td>
+                    <td>{{data.totalDays}}</td>
+                </tr>
+                {% endif %}
             {% endfor %}
+            {% endif %}
         </tbody>
     </table>
 </div>
@@ -43,6 +47,7 @@
     <div class="files">
         <table>
             <tbody>
+                {% if files %}
                 {% for file in files %}
                 <tr>
                     <td>
@@ -60,6 +65,7 @@
                     </td>
                 </tr>
                 {% endfor %}
+                {% endif %}
             </tbody>
         </table>
     </div>
@@ -68,9 +74,10 @@
 {% comment %} ASSIGNMENTS {% endcomment %}
 <div class="main-content hidden" id="assignment">
     <div class="upload">
-        <a href="#" style="color:red">UPLOAD</a>
+        <a href="#">UPLOAD</a>
     </div>
     <div class="files">
+        {% if assignments %}
         <table>
             {% for assignment in assignments %}
                 <tr>
@@ -90,6 +97,7 @@
                 </tr>
             {% endfor %}
         </table>
+        {% endif %}
     </div>
 </div>
 {% endblock content%}

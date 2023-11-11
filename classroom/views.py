@@ -1,11 +1,12 @@
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from users import models as user_models
 from . import models as classroom_models
-from django.db.models import Count
 from django.utils import timezone
 import calendar
 
+@login_required
 def attendence(request):
     user = User.objects.get(pk=request.user.id)
     student_profile = user_models.StudentProfile.objects.get(user=user)
@@ -44,23 +45,27 @@ def attendence(request):
     }
     return render(request, "classroom/classroom.html", context)
 
-def notes(request):
-    user = User.objects.get(pk=request.user.id)
-    student_profile = user_models.StudentProfile.objects.get(user=user)
-    files = classroom_models.Notes.objects.filter(class_id = student_profile.class_id)
-    print(files[0].file.url)
-
+@login_required
 def results(request):
     user = User.objects.get(pk=request.user.id)
     student_profile = user_models.StudentProfile.objects.get(user=user)
     exams = classroom_models.Result.objects.filter(student=student_profile)
-    ia1 = exams.filter(exam__exam='IA1')
-    print(ia1[0].subject)
     exams = {
-        'IA1' : exams.filter(exam__exam='IA1'),
-        'IA2' : exams.filter(exam__exam='IA2'),
-        'IA3' : exams.filter(exam__exam='IA3'),
+        'IA' : {
+            'IA1' : exams.filter(exam__exam='IA1'),
+            'IA2' : exams.filter(exam__exam='IA2'),
+            'IA3' : exams.filter(exam__exam='IA3'),
+        },
         'MODEL' : exams.filter(exam__exam='MODEL'),
-        'SEMESTER' : exams.filter(exam__exam='SEMESTER'),
+        'SEMESTER' : {
+            'SEM 1' : exams.filter(exam__exam='SEM-1'),
+            'SEM 2' : exams.filter(exam__exam='SEM-2'),
+            'SEM 3' : exams.filter(exam__exam='SEM-3'),
+            'SEM 4' : exams.filter(exam__exam='SEM-4'),
+            'SEM 5' : exams.filter(exam__exam='SEM-5'),
+            'SEM 6' : exams.filter(exam__exam='SEM-6'),
+            'SEM 7' : exams.filter(exam__exam='SEM-7'),
+            'SEM 8' : exams.filter(exam__exam='SEM-8'),
+            }
     }
     return render(request, 'classroom/results.html', exams)

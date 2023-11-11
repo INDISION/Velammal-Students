@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="col-lg-6 col-sm-10 mx-auto">
+        <label for="register">Register Number</label>
+        <input type="text" class="form-control" id="register" name="register" placeholder="{{student.user.username}}" disabled>
+    </div>
+    <div class="col-lg-6 col-sm-10 mx-auto">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="{{student.user.email}}" disabled>
+    </div>
+
+    <h2 class="col-lg-6 col-sm-10 mx-auto my-3">More Details</h2>
+
+    <div class="col-lg-6 col-sm-10 mx-auto">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="{{student.name}}" disabled>
+    </div>
+    <div class="d-lg-flex col-lg-6 col-sm-10 mx-auto">
+        <div class="w-50 me-lg-1">
+            <label for="regulation">Regulation</label>
+            <input type="text" class="form-control" id="regulation" name="regulation" placeholder="{{student.regulation}}" disabled>
+        </div>
+        <div class=" w-50 ms-lg-1">
+            <label for="batch">Batch</label>
+            <input type="text" class="form-control" id="batch" name="batch" placeholder="{{student.batch}}" disabled>
+        </div>
+        <div class=" w-50 ms-lg-1">
+            <label for="department">Department</label>
+            <input type="text" class="form-control" id="department" name="department" placeholder="{{student.department}}" disabled>
+        </div>
+    </div>
+    <div class="d-lg-flex col-lg-6 col-sm-10 mx-auto">
+        <div class="me-auto">
+            <label for="semester">Semester</label>
+            <input type="text" class="form-control" id="semester" name="semester" placeholder="{{student.semester}}" disabled>
+        </div>
+        <div class="w-75 mx-2">
+            <label for="section">Section</label>
+            <input type="text" class="form-control" id="section" name="section" placeholder="{{student.section}}" disabled>
+        </div>
+        <div class="">
+            <label for="year">Year</label>
+            <input type="text" class="form-control" id="year" name="year" placeholder="{{student.year}}" disabled>
+        </div>
+    </div>
+    <div class="d-lg-flex col-lg-6 col-sm-10 mx-auto">
+        <div class="w-50 me-lg-1">
+            <label for="date-of-birth">Date Of Birth</label>
+            <input type="date" name="dob" id="date-of-birth" class="form-control" placeholder="{{student.dob}}" disabled>
+        </div>
+        <div class=" w-50 ms-lg-1">
+            <label for="gender">Gender</label>
+            <input type="date" name="gender" id="gender" class="form-control" placeholder="{{student.gender}}" disabled>
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-10 mx-auto">
+        <label for="mobile">Mobile</label>
+        <input type="text" class="form-control" id="mobile" name="mobile" placeholder="{{student.mobile}}" disabled>
+    </div>
+    <div class="col-lg-6 col-sm-10 mx-auto my-4">
+        <a href="{% url 'profile-update' %}">Edit</a>
+    </div>
+
+</div>
+{% endblock content%}
