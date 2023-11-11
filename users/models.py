@@ -37,8 +37,8 @@ class Section(models.Model):
 class StudentProfile(models.Model):
 
     class Gender(models.TextChoices):
-        MALE = 'M', 'Male'
-        FEMALE = 'F', 'Female'
+        MALE = 'Male', 'Male'
+        FEMALE = 'Female', 'Female'
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=250)

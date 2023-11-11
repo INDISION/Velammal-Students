@@ -179,6 +179,8 @@ table tr td {
     margin-bottom: 2rem;
 }
 
+/*  */
+
 /* Responsive */
 @media screen and (max-width : 1000px ){
     .menu {

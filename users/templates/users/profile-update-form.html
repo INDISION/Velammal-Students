@@ -3,91 +3,119 @@
 
 {% block content %}
 <div class="container mt-5">
-    <form method="POST">
+    <form method="POST" action="profile-update">
         {% csrf_token %}
-            <div class="col-lg-6 col-sm-10 mx-auto">
+            <div class="col-lg-6 col-sm-10 mx-auto mb-3">
                 <label for="register">Register Number</label>
                 <input type="text" class="form-control" id="register" name="register" value="{{student.user.username}}" disabled>
             </div>
-            <div class="col-lg-6 col-sm-10 mx-auto">
+            <div class="col-lg-6 col-sm-10 mx-auto mb-3">
                 <label for="email">Email</label>
                 <input type="email" class="form-control" id="email" name="email" value="{{student.user.email}}" disabled>
             </div>
             <h2 class="col-lg-6 col-sm-10 mx-auto my-3">More Details</h2>
 
-            <div class="col-lg-6 col-sm-10 mx-auto">
+            <div class="col-lg-6 col-sm-10 mx-auto mb-3">
                 <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" name="name" value="{{student.name}}" disabled>
+                <input type="text" class="form-control" id="name" name="name" value="{{student.name}}">
             </div>
-            <div class="d-lg-flex col-lg-6 col-sm-10 mx-auto">
-                <div class="w-50 me-lg-1">
+            <div class="d-lg-flex col-lg-6 col-sm-10 mx-auto mb-3">
+                <div class= "">
                     <label for="regulation">Regulation</label>
                     <select class="form-select" aria-label="Default select example" id="regulation" name="regulation">
-                        {% for regulation in regulations %}
+                        {% for regulation in selections.regulations %}
+                        {% if student.regulation == regulation %}
                         <option value="{{regulation.regulation}}" selected>{{regulation.regulation}}</option>
+                        {% else %}
+                        <option value="{{regulation.regulation}}">{{regulation.regulation}}</option>
+                        {% endif %}
                         {% endfor %}
                     </select>
                 </div>
-                <div class=" w-50 ms-lg-1">
+                <div class="mx-lg-2 w-100">
                     <label for="batch">Batch</label>
                     <select class="form-select" aria-label="Default select example" id="batch" name="batch">
-                        {% for batch in batches %}
+                        {% for batch in selections.batches %}
+                        {% if student.batch == batch %}
+                        <option value="{{batch.batch}}" selected>{{batch.batch}}</option>
+                        {% else %}
                         <option value="{{batch.batch}}">{{batch.batch}}</option>
+                        {% endif %}
                         {% endfor %}
                     </select>
                 </div>
-                <div class=" w-50 ms-lg-1">
+                <div class="">
                     <label for="department">Department</label>
                     <select class="form-select" aria-label="Default select example" id="department" name="department">
-                        {% for department in departments %}
+                        {% for department in selections.departments %}
+                        {% if student.department == department %}
+                        <option value="{{department.department}}" selected>{{department.department}}</option>
+                        {% else %}
                         <option value="{{department.department}}">{{department.department}}</option>
+                        {% endif %}
                         {% endfor %}
                     </select>
                 </div>
             </div>
-            <div class="d-lg-flex col-lg-6 col-sm-10 mx-auto">
-                <div class="me-auto">
+            <div class="d-lg-flex col-lg-6 col-sm-10 mx-auto mb-3">
+                <div class="">
                     <label for="semester">Semester</label>
                     <select class="form-select" aria-label="Default select example" id="semester" name="semester">
-                        {% for  semester in semesters %}
+                        {% for  semester in selections.semesters %}
+                        {% if student.semester == semester %}
+                        <option value="{{semester.semester}}" selected>{{semester.semester}}</option>
+                        {% else %}
                         <option value="{{semester.semester}}">{{semester.semester}}</option>
+                        {% endif %}
                         {% endfor %}
                     </select>
                 </div>
-                <div class="w-75 mx-2">
+                <div class="mx-lg-2 w-100">
                     <label for="section">Section</label>
                     <select class="form-select" aria-label="Default select example" id="section" name="section">
-                        {% for  section in sections %}
+                        {% for  section in selections.sections %}
+                        {% if student.section == section %}
+                        <option value="{{section.section}}" selected>{{section.section}}</option>
+                        {% else %}
                         <option value="{{section.section}}">{{section.section}}</option>
+                        {% endif %}
                         {% endfor %}
                     </select>
                 </div>
                 <div class="">
                     <label for="year">Year</label>
                     <select class="form-select pe-5" aria-label="Default select example" id="year" name="year">
-                        {% for  year in years %}
+                        {% for  year in selections.years %}
+                        {% if student.year == year %}
+                        <option value="{{year.year}}" selected>{{year.year}}</option>
+                        {% else %}
                         <option value="{{year.year}}">{{year.year}}</option>
+                        {% endif %}
                         {% endfor %}
                     </select>
                 </div>
             </div>
-            <div class="d-lg-flex col-lg-6 col-sm-10 mx-auto">
-                <div class="w-50 me-lg-1">
+            <div class="d-lg-flex col-lg-6 col-sm-10 mx-auto mb-3">
+                <div class="me-lg-2 w-100">
                     <label for="date-of-birth">Date Of Birth</label>
-                    <input type="date" name="dob" id="date-of-birth" class="form-control">
+                    <input type="date" name="dob" id="date-of-birth" class="form-control" value="{{student.date_of_birth|date:"Y-m-d"}}">
                 </div>
-                <div class=" w-50 ms-lg-1">
+                <div class="">
                     <label for="gender">Gender</label>
                     <select class="form-select" aria-label="Default select example" id="gender" name="gender">
-                        {% for  gender in genders %}
+                        {% for  gender in selections.genders %}
+                        {% if student.gender == gender.0 %}
+                        <option value="{{gender.0}}" selected>{{gender.1}}</option>
+                        {% else %}
                         <option value="{{gender.0}}">{{gender.1}}</option>
+                        {% endif %}
                         {% endfor %}
                     </select>
                 </div>
             </div>
-            <div class="col-lg-6 col-sm-10 mx-auto">
+            <div class="col-lg-6 col-sm-10 mx-auto mb-3">
                 <label for="mobile">Mobile</label>
-                <input type="text" class="form-control" id="mobile" name="mobile">
+                <input type="text" class="form-control" id="mobile" name="mobile" value="{{student.mobile}}">
             </div>
             <div class="col-lg-6 col-sm-10 mx-auto my-4">
                 <button type="submit" class="btn btn-warning">Submit</button>

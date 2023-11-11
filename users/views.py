@@ -17,6 +17,16 @@ To Reset Your Password Click On The Link
 """
 
 # Create your views here.
+def selections():
+    regulations = Regulation.objects.all()
+    batches = Batch.objects.all()
+    departments = Department.objects.all()
+    semesters = Semester.objects.all()
+    genders = StudentProfile.Gender.choices
+    sections = Section.objects.all()
+    years = Year.objects.all()
+
+    return {'regulations':regulations, 'batches':batches, 'departments':departments, 'semesters':semesters, 'genders':genders, 'sections':sections, 'years':years}
 def profile(request):
     user = User.objects.get(pk=request.user.id)
     student_profile = StudentProfile.objects.get(user=user)
@@ -28,8 +38,38 @@ def profile(request):
 def updateProfile(request):
     user = User.objects.get(pk=request.user.id)
     student_profile = StudentProfile.objects.get(user=user)
+    if request.method=='POST':
+        name = str(request.POST.get('name')).strip().upper()
+        regulation = request.POST.get('regulation')
+        batch = request.POST.get('batch')
+        department = request.POST.get('department')
+        semester = request.POST.get('semester')
+        section = request.POST.get('section')
+        year = request.POST.get('year')
+        dob = request.POST.get('dob')
+        gender = request.POST.get('gender')
+        mobile = request.POST.get('mobile')
+        student_profile.name = name
+        student_profile.regulation = Regulation.objects.get(regulation=regulation)
+        student_profile.batch = Batch.objects.get(batch=batch)
+        student_profile.department = Department.objects.get(department=department)
+        student_profile.semester = Semester.objects.get(semester=semester)
+        student_profile.section = Section.objects.get(section=section)
+        student_profile.year = Year.objects.get(year=year)
+        student_profile.date_of_birth = dob
+        student_profile.gender = gender
+        student_profile.mobile = mobile
+
+
+        student_profile.save()
+
+        return redirect('profile')
+
+
+
     context = {
         'student' : student_profile,
+        'selections': selections(),
     }
     return render(request, 'users/profile-update-form.html', context)
 
@@ -40,7 +80,7 @@ def registration(request):
         email = str(request.POST.get('email')).strip()
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
-        name = str(request.POST.get('name')).strip().capitalize()
+        name = str(request.POST.get('name')).strip().upper()
         regulation = request.POST.get('regulation')
         batch = request.POST.get('batch')
         semester = request.POST.get('semester')
@@ -91,15 +131,7 @@ def registration(request):
                 profile.save()
 
 
-    regulations = Regulation.objects.all()
-    batches = Batch.objects.all()
-    departments = Department.objects.all()
-    semesters = Semester.objects.all()
-    genders = StudentProfile.Gender.choices
-    sections = Section.objects.all()
-    years = Year.objects.all()
-
-    context = {'regulations':regulations, 'batches':batches, 'departments':departments, 'semesters':semesters, 'genders':genders, 'sections':sections, 'years':years}
+    context = selections()
     return render(request, 'users/registration.html', context) 
 
 class UserLoginView(LoginView):
