@@ -1,0 +1,173 @@
+/* Common CSS */
+*{
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: #151515;
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+}
+svg {
+    fill: #fff;
+    height: 1.5rem;
+}
+
+a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.selected{
+    color: #2e7ed3;
+}
+.hidden {
+    display: none;
+}
+
+/* Header CSS */
+.header {
+    display: flex;
+    justify-content: space-between ;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+.title {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 0.5ch;
+    width: 80%;
+}
+.title a:hover{
+    color: #2e7ed3;
+}
+.sub-header {
+    width: 20%;
+    display: flex;
+    justify-content: space-around;
+}
+.sub-header a:hover {
+    color: #2e7ed3;
+}
+
+/* Main*/
+main {
+    padding: 2rem;
+}
+.menu {
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    width: 50%;
+    margin: 2rem 0 0 0;
+    justify-content: space-between;
+    z-index: 5;
+    background-color: #151515;
+    padding: 1rem;
+    border-top-right-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+}
+.menu span {
+    font-weight: 600;
+    color: #fff;
+}
+/* .selected span, .selected svg{
+    color: #2e7ed3 !important;
+    fill: #2e7ed3 !important;
+} */
+.menu-item {
+    display: flex;
+    align-items: center;
+}
+.menu-item svg {
+    margin-right: 1rem;
+}
+.menu .menu-item:hover svg, .menu .menu-item:hover span{
+        color: #2e7ed3 !important;
+        fill: #2e7ed3 !important;
+}
+
+/* Content */
+.content {
+    background-color: #fff;
+    overflow-x: scroll;
+    color: #151515;
+    border-radius: 5px;
+    margin-bottom: 2rem;
+}
+.filters ul{
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin-bottom: 0;
+    padding-left: 0;
+}
+.filters ul li {
+    margin: 1rem 2rem;
+    padding: 5px 1rem;
+    border:1px solid #151515;
+    border-radius: 1rem;
+    color: #000;
+}
+.filters .selected, .filters ul li:hover {
+    background-color: #2e7ed3;
+    color: #fff !important;
+    border: 1px solid #2e7ed3;
+}
+.main-content {
+    padding: 1rem 2rem;
+}
+table {
+    margin-bottom: 5rem;
+    width: 100%;  
+}
+table thead{
+    background-color: #2e7ed3;
+    color: #fff;
+}
+table tr:hover {
+    background-color: #2e7ed3c2;
+    color: #fff;
+}
+table tr td {
+    padding: 1rem;
+    border: 1px solid #000000;
+}
+
+/* files */
+.files {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+.file {
+    margin-right: 3%;
+    -webkit-box-shadow: 0 0 10px 1px #151515;
+    -moz-box-shadow: 0 0 10px 1px #151515;
+    box-shadow: 0 0 10px 1px #151515;
+    margin-bottom: 5rem;
+}
+.file-date, .file-title {
+    margin: 0.5rem 2rem;
+}
+.file-date {
+    font-weight: 200;
+}
+
+.upload {
+    margin-right: 2rem;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 2rem;
+}
+
+/* Responsive */
+@media screen and (max-width : 1000px ){
+    .menu {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width : 600px ){
+    
+}

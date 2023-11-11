@@ -20,6 +20,9 @@ a {
 .selected{
     color: #2e7ed3;
 }
+.hidden {
+    display: none;
+}
 
 /* Header CSS */
 .header {
@@ -34,10 +37,22 @@ a {
     letter-spacing: 0.5ch;
     width: 80%;
 }
+.title a{
+    color: #fff;
+}
+.title a:hover{
+    color: #2e7ed3;
+}
 .sub-header {
     width: 20%;
     display: flex;
     justify-content: space-around;
+}
+.sub-header a{
+    color: #fff;
+}
+.sub-header a:hover {
+    color: #2e7ed3;
 }
 
 /* Main*/
@@ -61,10 +76,10 @@ main {
     font-weight: 600;
     color: #fff;
 }
-.selected span, .selected svg{
+/* .selected span, .selected svg{
     color: #2e7ed3 !important;
     fill: #2e7ed3 !important;
-}
+} */
 .menu-item {
     display: flex;
     align-items: center;
@@ -116,7 +131,7 @@ table thead{
     color: #fff;
 }
 table tr:hover {
-    background-color: #2e7ed3c2;
+    background-color: #2e7ed3;
     color: #fff;
 }
 table tr td {
@@ -130,15 +145,28 @@ table tr td {
     justify-content: space-evenly;
     flex-wrap: wrap;
 }
+.files table, .files td {
+    border: 0px solid #000;
+}
+.files table tr:hover {
+    background-color: #fff;
+    color: black;
+}
 .file {
     margin-right: 3%;
+    min-width: 25%;
     -webkit-box-shadow: 0 0 10px 1px #151515;
     -moz-box-shadow: 0 0 10px 1px #151515;
     box-shadow: 0 0 10px 1px #151515;
     margin-bottom: 5rem;
+    background-color: #000;
+}
+.file-pic {
+    width: 100% !important;
 }
 .file-date, .file-title {
     margin: 0.5rem 2rem;
+    color: #fff;
 }
 .file-date {
     font-weight: 200;

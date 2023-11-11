@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="filters">
+    <ul>
+        <li onclick="showDiv('attendence',this)" class="filter selected">ATTENDENCE</li>
+        <li onclick="showDiv('notes',this)" class="filter">NOTES</li>
+        <li onclick="showDiv('assignment',this)" class="filter">ASSIGNMENTS</li>
+    </ul>
+</div>
+
+{% comment %} ATTENDENCE {% endcomment %}
+<div class="main-content" id="attendence">
+    <table>
+        <thead>
+            <tr>
+                <td>Month</td>
+                <td>PRESENT</td>
+                <td>PRESENT %</td>
+                <td>ABSENT</td>
+                <td>ABSENT %</td>
+                <td>TOTAL</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for month, data in attendence.items %}
+            <tr>
+                <td>{{month}}</td>
+                <td>{{data.present}}</td>
+                <td>{{data.presentPercent}}</td>
+                <td>{{data.absent}}</td>
+                <td>{{data.absentPercent}}</td>
+                <td>{{data.totalDays}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% comment %} NOTES {% endcomment %}
+<div class="main-content hidden" id="notes">
+    <div class="files">
+        <table>
+            <tbody>
+                {% for file in files %}
+                <tr>
+                    <td>
+                        {{file.title}}
+                    </td>
+                    <td>
+                        <a href="{{file.file.url}}" target="_blank">
+                            view
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{file.file.url}}" download="{{file.file}}">
+                            Download
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% comment %} ASSIGNMENTS {% endcomment %}
+<div class="main-content hidden" id="assignment">
+    <div class="upload">
+        <a href="#" style="color:red">UPLOAD</a>
+    </div>
+    <div class="files">
+        <table>
+            {% for assignment in assignments %}
+                <tr>
+                    <td>
+                        {{assignment.title}}
+                    </td>
+                    <td>
+                        <a href="{{assignment.file.url}}" target="_blank">
+                            view
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{assignment.file.url}}" download="{{assignment.file}}">
+                            Download
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock content%}
+
+{% block js %}
+<script>
+    function showDiv(divID, button) {
+        var divs = document.querySelectorAll('.main-content');
+        divs.forEach(function(div) {
+            div.style.display = 'none';
+        })
+
+        document.getElementById(divID).style.display = 'block';
+
+        var  filters = document.querySelectorAll('.filter');
+        filters.forEach(function(filter) {
+            filter.classList.remove('selected');
+        })
+
+        button.classList.add('selected')
+    }
+</script>
+{% endblock js%}

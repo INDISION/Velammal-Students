@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="filters">
+    <ul>
+        <li onclick="showDiv('ia',this)" class="filter selected">IA</li>
+        <li onclick="showDiv('model',this)" class="filter">MODEL</li>
+        <li onclick="showDiv('semester',this)" class="filter">SEMESTER</li>
+    </ul>
+</div>
+
+{% comment %} IA {% endcomment %}
+<div class="main-content" id="ia">
+    <table>
+        <thead>
+            <tr>
+                <td></td>
+                <td>SUBJECT</td>
+                <td>MARKS FOR 60</td>
+                <td>MARKS FOR 100</td>
+                <td>PASS / FAIL</td>
+            </tr>
+        </thead>
+        <tbody>
+            <td rowspan="0">IA1</td>
+            {% for result in IA1 %}
+            <tr>
+                <td>{{result.subject.name}}</td>
+                <td>{{result.marks}}</td>
+                <td>
+                    {% widthratio result.marks 1 100 as marks%}
+                    {% widthratio marks 60 1 as marks%}
+                    {{marks}}
+                </td>
+                <td>PASS</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <table>
+        <thead>
+            <tr>
+                <td></td>
+                <td>SUBJECT</td>
+                <td>MARKS FOR 60</td>
+                <td>MARKS FOR 100</td>
+                <td>PASS / FAIL</td>
+            </tr>
+        </thead>
+        <tbody>
+            <td rowspan="0">IA2</td>
+            {% for result in IA2 %}
+            <tr>
+                <td>{{result.subject.name}}</td>
+                <td>{{result.marks}}</td>
+                <td>
+                    {% widthratio result.marks 1 100 as marks%}
+                    {% widthratio marks 60 1 as marks%}
+                    {{marks}}
+                </td>
+                <td>PASS</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <table>
+        <thead>
+            <tr>
+                <td></td>
+                <td>SUBJECT</td>
+                <td>MARKS FOR 60</td>
+                <td>MARKS FOR 100</td>
+                <td>PASS / FAIL</td>
+            </tr>
+        </thead>
+        <tbody>
+            <td rowspan="0">IA3</td>
+            {% for result in IA2 %}
+            <tr>
+                <td>{{result.subject.name}}</td>
+                <td>{{result.marks}}</td>
+                <td>
+                    {% widthratio result.marks 1 100 as marks%}
+                    {% widthratio marks 60 1 as marks%}
+                    {{marks}}
+                </td>
+                <td>PASS</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% comment %} MODEL {% endcomment %}
+<div class="main-content hidden" id="model">
+    <table>
+        <thead>
+            <tr>
+                <td></td>
+                <td>SUBJECT</td>
+                <td>MARKS FOR 60</td>
+                <td>MARKS FOR 100</td>
+                <td>PASS / FAIL</td>
+            </tr>
+        </thead>
+        <tbody>
+            <td rowspan="0">MODEL</td>
+            {% for result in MODEL %}
+            <tr>
+                <td>{{result.subject.name}}</td>
+                <td>{{result.marks}}</td>
+                <td>
+                    {% widthratio result.marks 1 100 as marks%}
+                    {% widthratio marks 60 1 as marks%}
+                    {{marks}}
+                </td>
+                <td>PASS</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% comment %} SEMESTER {% endcomment %}
+<div class="main-content hidden" id="semester">
+    <table>
+        <thead>
+            <tr>
+                <td></td>
+                <td>SUBJECT</td>
+                <td>MARKS FOR 60</td>
+                <td>MARKS FOR 100</td>
+                <td>PASS / FAIL</td>
+            </tr>
+        </thead>
+        <tbody>
+            <td rowspan="0">SEMESTER</td>
+            {% for result in SEMESTER %}
+            <tr>
+                <td>{{result.subject.name}}</td>
+                <td>{{result.marks}}</td>
+                <td>
+                    {% widthratio result.marks 1 100 as marks%}
+                    {% widthratio marks 60 1 as marks%}
+                    {{marks}}
+                </td>
+                <td>PASS</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content%}
+
+{% block js %}
+<script>
+    function showDiv(divID, button) {
+        var divs = document.querySelectorAll('.main-content');
+        divs.forEach(function(div) {
+            div.style.display = 'none';
+        })
+
+        document.getElementById(divID).style.display = 'block';
+
+        var  filters = document.querySelectorAll('.filter');
+        filters.forEach(function(filter) {
+            filter.classList.remove('selected');
+        })
+
+        button.classList.add('selected')
+    }
+</script>
+{% endblock js%}
