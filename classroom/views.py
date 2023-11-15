@@ -49,23 +49,58 @@ def attendence(request):
 def results(request):
     user = User.objects.get(pk=request.user.id)
     student_profile = user_models.StudentProfile.objects.get(user=user)
-    exams = classroom_models.Result.objects.filter(student=student_profile)
-    exams = {
+    exam_results = classroom_models.Result.objects.filter(student=student_profile)
+    exams = classroom_models.Exam.objects.filter(class_id__class_id = student_profile.class_id)
+    exam_results = {
         'IA' : {
-            'IA1' : exams.filter(exam__exam='IA1'),
-            'IA2' : exams.filter(exam__exam='IA2'),
-            'IA3' : exams.filter(exam__exam='IA3'),
+            'IA1' : [exam_results.filter(exam__exam='IA1')],
+            'IA2' : [exam_results.filter(exam__exam='IA2')],
+            'IA3' : [exam_results.filter(exam__exam='IA3')],
         },
-        'MODEL' : exams.filter(exam__exam='MODEL'),
+        'MODEL' : [exam_results.filter(exam__exam='MODEL')],
         'SEMESTER' : {
-            'SEM 1' : exams.filter(exam__exam='SEM-1'),
-            'SEM 2' : exams.filter(exam__exam='SEM-2'),
-            'SEM 3' : exams.filter(exam__exam='SEM-3'),
-            'SEM 4' : exams.filter(exam__exam='SEM-4'),
-            'SEM 5' : exams.filter(exam__exam='SEM-5'),
-            'SEM 6' : exams.filter(exam__exam='SEM-6'),
-            'SEM 7' : exams.filter(exam__exam='SEM-7'),
-            'SEM 8' : exams.filter(exam__exam='SEM-8'),
+            'SEM 1' : [exam_results.filter(exam__exam='SEM-1')],
+            'SEM 2' : [exam_results.filter(exam__exam='SEM-2')],
+            'SEM 3' : [exam_results.filter(exam__exam='SEM-3')],
+            'SEM 4' : [exam_results.filter(exam__exam='SEM-4')],
+            'SEM 5' : [exam_results.filter(exam__exam='SEM-5')],
+            'SEM 6' : [exam_results.filter(exam__exam='SEM-6')],
+            'SEM 7' : [exam_results.filter(exam__exam='SEM-7')],
+            'SEM 8' : [exam_results.filter(exam__exam='SEM-8')],
             }
     }
-    return render(request, 'classroom/results.html', exams)
+
+    for i in ('IA', 'SEMESTER'):
+        for exam, data in exam_results[i].items():
+            scored_credits = 0
+            total_credits = 0
+            for paper in data[0]:
+                scored_credits += int(paper.grade)*int(paper.subject.credit)
+                total_credits += int(paper.subject.credit)*10
+            if total_credits!=0:
+                exam_results[i][exam].append(round(scored_credits/total_credits*10, 4))
+    for subject in exam_results['MODEL'][0]:
+        scored_credits += int(subject.grade)*int(subject.subject.credit)
+        total_credits += int(subject.subject.credit)*10
+        if total_credits!=0:
+            exam_results['MODEL'].append(round(scored_credits/total_credits*10, 4))
+
+    print(exam_results['SEMESTER']['SEM 4'][0][0].exam.class_id.year.year)
+    return render(request, 'classroom/results.html', exam_results)
+
+@login_required
+def upload_results(request, year="I", sem="I"):
+    user = User.objects.get(pk=request.user.id)
+    student_profile = user_models.StudentProfile.objects.get(user=user)
+    exam_results = classroom_models.Result.objects.filter(student=student_profile)
+    student = f"REG {student_profile.regulation} | Batch {student_profile.batch} | YEAR {year} | SEM {sem} | {student_profile.department} {student_profile.section}"
+    exams = classroom_models.Exam.objects.filter(class_id__class_id = student)
+    print(student)
+    student_class = classroom_models.Class.objects.get(class_id = student)
+    if request.method=="POST":
+        pass
+
+    context = {
+        'subjects' : student_class.subjects.all()
+    }
+    return render(request, "classroom/result_upload.html", context)

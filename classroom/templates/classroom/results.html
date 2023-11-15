@@ -13,31 +13,29 @@
 {% comment %} IA {% endcomment %}
 <div class="main-content" id="ia">
     {% for exam, data in IA.items %}
-    {% if data %}
+    {% if data.0 %}
     <table>
         <thead>
             <tr>
                 <td></td>
                 <td>SUBJECT</td>
-                <td>MARKS FOR 60</td>
-                <td>MARKS FOR 100</td>
-                <td>PASS / FAIL</td>
+                <td>MARKS</td>
+                <td>GRADE</td>
             </tr>
         </thead>
         <tbody>
             <td rowspan="0">{{exam}}</td>
-            {% for result in data %}
+            {% for result in data.0 %}
             <tr>
-                <td>{{result.subject.name}}</td>
+                <td>{{result.subject.code}} {{result.subject.name}}</td>
                 <td>{{result.marks}}</td>
-                <td>
-                    {% widthratio result.marks 1 100 as marks%}
-                    {% widthratio marks 60 1 as marks%}
-                    {{marks}}
-                </td>
-                <td>PASS</td>
+                <td>{{result.grade}}</td>
             </tr>
             {% endfor %}
+            <tr>
+                <td colspan="2">GPA</td>
+                <td>{{data.1}}</td>
+            </tr>
         </tbody>
     </table>
     {% endif %}
@@ -46,31 +44,29 @@
 
 {% comment %} MODEL {% endcomment %}
 <div class="main-content hidden" id="model">
-    {% if MODEL %}
+    {% if MODEL.0 %}
     <table>
         <thead>
             <tr>
                 <td></td>
                 <td>SUBJECT</td>
-                <td>MARKS FOR 60</td>
-                <td>MARKS FOR 100</td>
-                <td>PASS / FAIL</td>
+                <td>MARKS</td>
+                <td>GRADE</td>
             </tr>
         </thead>
         <tbody>
             <td rowspan="0">MODEL</td>
-            {% for result in MODEL %}
+            {% for result in MODEL.0 %}
             <tr>
-                <td>{{result.subject.name}}</td>
+                <td>{{result.subject.code}} {{result.subject.name}}</td>
                 <td>{{result.marks}}</td>
-                <td>
-                    {% widthratio result.marks 1 100 as marks%}
-                    {% widthratio marks 60 1 as marks%}
-                    {{marks}}
-                </td>
-                <td>PASS</td>
+                <td>{{result.grade}}</td>
             </tr>
             {% endfor %}
+            <tr>
+                <td colspan="2">GPA</td>
+                <td>{{MODEL.1}}</td>
+            </tr>
         </tbody>
     </table>
     {% endif %}
@@ -79,34 +75,36 @@
 {% comment %} SEMESTER {% endcomment %}
 <div class="main-content hidden" id="semester">
     {% for sem, data in SEMESTER.items %}
-    {% if data %}
+    
     <table>
         <thead>
             <tr>
                 <td></td>
                 <td>SUBJECT</td>
-                <td>MARKS FOR 60</td>
-                <td>MARKS FOR 100</td>
-                <td>PASS / FAIL</td>
+                <td>Grade</td>
             </tr>
         </thead>
         <tbody>
             <td rowspan="0">{{sem}}</td>
-            {% for result in data %}
+            {% if data.0 %}
+            {% for result in data.0 %}
             <tr>
-                <td>{{result.subject.name}}</td>
-                <td>{{result.marks}}</td>
+                <td>{{result.subject.code}} {{result.subject.name}}</td>
                 <td>
-                    {% widthratio result.marks 1 100 as marks%}
-                    {% widthratio marks 60 1 as marks%}
-                    {{marks}}
+                    {{result.grade}}
                 </td>
-                <td>PASS</td>
             </tr>
             {% endfor %}
+            <tr>
+                <td>GPA</td>
+                <td>{{data.1}}</td>
+            </tr>
+            {% else %}
+            <a href="{% url 'upload-results' year=data.0.0.exam.class_id.year.year sem='II' %}">Upload</a>
+            {{data}}
+            {% endif %}
         </tbody>
     </table>
-    {% endif %}
     {% endfor %}
 </div>
 

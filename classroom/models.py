@@ -73,10 +73,19 @@ class Result(models.Model):
         ABSENT = 'ABSENT', 'ABSENT'
         PRESENT = 'PRESENT', 'PRESENT'
         OD = 'OD', 'OD'
+    class Grades(models.TextChoices):
+        O = 10, 'O'
+        APLUS = 9, 'A+'
+        A = 8, 'A'
+        BPLUS = 7, 'B+'
+        B = 6, 'B'
+        C = 5, 'C'
+        NOGRADE = 0, 'NOGRADE'
     student = models.ForeignKey(user_models.StudentProfile, on_delete=models.CASCADE)
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     marks = models.CharField(max_length=25, null=True, blank=True)
+    grade = models.CharField(choices=Grades.choices, max_length=25, default=Grades.NOGRADE)
     attend_status = models.CharField(choices=AttendStatus.choices, max_length=25, default=AttendStatus.PRESENT)
 
     def save(self, *args, **kwargs):
@@ -84,9 +93,30 @@ class Result(models.Model):
             self.attend_status = self.AttendStatus.ABSENT
         else:
             self.attend_status = self.AttendStatus.PRESENT
+        
+        self.marks = int(self.marks)*100//60
+
+        if int(self.marks) in range(90, 101):
+            self.grade = self.Grades.O
+        elif int(self.marks) in range(80, 90):
+            self.grade = self.Grades.APLUS
+        elif int(self.marks) in range(70, 80):
+            self.grade = self.Grades.A
+        elif int(self.marks) in range(60,70):
+            self.grade = self.Grades.BPLUS
+        elif int(self.marks) in range(50,60):
+            self.grade = self.Grades.B
+        elif int(self.marks) in range(45,50):
+            self.grade = self.Grades.C
+        else:
+            self.grade = self.Grades.NOGRADE
+        
+        print(self.grade)
         super(Result, self).save(*args, **kwargs)
         
-
+    class Meta:
+        unique_together = ('student', 'exam', 'subject')
+        
     def __str__(self):
         return self.student.user.username + " | EXAM " + self.exam.exam + " | " + self.exam.class_id.class_id
     

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+{% comment %} Upload Result {% endcomment %}
+<div class="main-content">
+    {% if subjects %}
+    <form method="POST">
+        {% for subject in subjects %}
+        <div class="subject">
+            <label for="{{subject.code}}">{{subject.code}} - {{subject.name}}</label>
+            <select name="{{subject.code}}" id="{{subject.code}}">
+                <option value="O">O</option>
+                <option value="A+">A+</option>
+                <option value="A">A</option>
+                <option value="B+">B+</option>
+                <option value="B">B</option>
+                <option value="U">U</option>
+            </select>
+        </div>
+        {% endfor %}
+
+
+        <button type="submit" class="button">SUBMIT</button>
+        
+    </form>
+    {% else %}
+    <p> No Subjects To Show For You </p>
+    {% endif %}
+</div>
+
+{% endblock content%}
+
+{% block js %}
+<script>
+    function showDiv(divID, button) {
+        var divs = document.querySelectorAll('.main-content');
+        divs.forEach(function(div) {
+            div.style.display = 'none';
+        })
+
+        document.getElementById(divID).style.display = 'block';
+
+        var  filters = document.querySelectorAll('.filter');
+        filters.forEach(function(filter) {
+            filter.classList.remove('selected');
+        })
+
+        button.classList.add('selected')
+    }
+</script>
+{% endblock js%}
+
+
+
+

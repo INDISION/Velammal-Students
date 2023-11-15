@@ -104,7 +104,7 @@ def registration(request):
                 password=password1
             )
 
-
+ 
             batch = Batch.objects.get(batch=batch)
             regulation = Regulation.objects.get(regulation=regulation)
             department = Department.objects.get(department=department)
